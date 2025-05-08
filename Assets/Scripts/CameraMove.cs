@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour
+public class IsometricCameraFollow : MonoBehaviour
 {
+    public Transform target;
+    public Vector3 offset = new Vector3(0f, 10f, -10f); // Match your isometric angle
+    public float smoothTime = 0.2f;
 
-    public Transform Player;
+    private Vector3 velocity = Vector3.zero;
 
-    float cameraOffsetZ;
-    void Start()
+    void LateUpdate()
     {
-        cameraOffsetZ = gameObject.transform.position.z - Player.position.z;
-    }
+        if (target == null) return;
 
-    void Update()
-    {
-        Vector3 m_cameraPos = new Vector3(Player.position.x, gameObject.transform.position.y, Player.position.z + cameraOffsetZ);
+        Vector3 desiredPosition = target.position + offset;
 
-        gameObject.transform.position = m_cameraPos;
+        // Smoothly move camera
+        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
     }
 }
