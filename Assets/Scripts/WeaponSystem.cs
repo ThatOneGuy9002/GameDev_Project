@@ -11,12 +11,14 @@ public class WeaponSystem : MonoBehaviour
     public float projectileSpeed = 3f;
     private float timeStamp = 0f;
 
+    public AudioSource shootAudioSource;
 
     private void FixedUpdate()
     {
         if ((Time.time >= timeStamp) && (Input.GetKey(KeyCode.Mouse0))) 
         {
             Fire();
+            shootAudioSource.Play();
             timeStamp = Time.time + (1/fireRate);
         }
     }
@@ -28,6 +30,7 @@ public class WeaponSystem : MonoBehaviour
         projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
 
         Destroy(projectile, 2.0f);
+
     }
 
 }
